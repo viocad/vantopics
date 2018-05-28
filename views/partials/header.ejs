@@ -1,9 +1,59 @@
 <!DOCTYPE html>
 <html>
+    
     <head>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
-        <link rel="stylesheet" href="/stylesheets/main.css">
+        
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/main.css">
         <script src='https://www.google.com/recaptcha/api.js'></script>
+        
         <title>VanTopics</title>
+        
     </head>
+    
     <body>
+        
+        <div class="container">
+        
+            <nav class="border sticky-top navbar navbar-light navbar-expand-md bg-light">
+                <!--navbar-expand here is important! it is used to make the collapse work-->
+                
+                <a class="navbar-brand" href="/">VanTopics</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="menu">
+                    
+                    <ul class="navbar-nav mr-auto">
+                        
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">文章分類</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">item 1</a>
+                                <a class="dropdown-item" href="#">item 2</a>
+                                <a class="dropdown-item" href="#">item 3</a>
+                            </div>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">關於本站</a>
+                        </li>
+    
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">聯絡站長</a>
+                        </li>
+                        
+                    </ul>
+                    
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="搜一下" aria-label="search">
+                        <button class="btn btn-outline-dark my-2 my-sm-0">搜！</button>
+                    </form>
+                    
+                </div>
+                
+            </nav>
+        
+        <div class="row">
+            <div class="col-9">

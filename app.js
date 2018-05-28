@@ -9,7 +9,8 @@ var express             = require("express"),
     passport            = require("passport"),
     LocalStrategy       = require("passport-local"),
     methodOverride      = require("method-override"),
-    flash               = require("connect-flash");
+    flash               = require("connect-flash"),
+    indexRoutes         = require("./routes/index.js");
 
 // BASIC CONFIG
 mongoose.connect(process.env.DB_URL);
@@ -32,10 +33,8 @@ app.use(function(req, res, next){
 app.locals.moment = require("moment");
 
 // ROUTES
-app.get("/", function(req, res){
-    res.render("index");
-})
-/*app.use(indexRoutes);
+app.use(indexRoutes);
+/*
 app.use("/campgrounds", campgroundRoutes); 
 app.use("/campgrounds/:id/comments", commentRoutes);*/
 
