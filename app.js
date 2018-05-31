@@ -10,7 +10,8 @@ var express             = require("express"),
     LocalStrategy       = require("passport-local"),
     methodOverride      = require("method-override"),
     flash               = require("connect-flash"),
-    indexRoutes         = require("./routes/index.js");
+    indexRoutes         = require("./routes/index.js"),
+    userRoutes          = require("./routes/users.js");
 
 // BASIC CONFIG
 mongoose.connect(process.env.DB_URL);
@@ -34,6 +35,7 @@ app.locals.moment = require("moment");
 
 // ROUTES
 app.use(indexRoutes);
+app.use("/admin", userRoutes);
 /*
 app.use("/campgrounds", campgroundRoutes); 
 app.use("/campgrounds/:id/comments", commentRoutes);*/
