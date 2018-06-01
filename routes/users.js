@@ -8,5 +8,10 @@ router.get("/", function(req, res){
    res.render("users/admin");
 });
 
+// admin dashboard
+router.get("/dashboard", function(req, res){
+   res.render("users/admin-dashboard");
+});
+
 
 module.exports = router;
