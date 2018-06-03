@@ -1,15 +1,15 @@
 var express         = require("express"),
     router          = express.Router(),
     passport        = require("passport"),
-    User            = require("../models/user.js"),
-    Quill           = require("quill");
+    User            = require("../models/user.js");
 
-var editor = new Quill("#editor", {
-   modules: {toolbar:"#toolbar"},
-   theme: "snow"
+
+// POST - ADMIN INDEX ROUTE
+router.get("/admin", function(req, res){
+   res.render("posts/index");
 });
     
-// NEW ROUTE
+// POST - NEW ROUTE
 router.get("/new", function(req, res){
    res.render("posts/new");
 });    
