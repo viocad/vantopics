@@ -4,4 +4,8 @@
 
 <p><%- post.content %></p>
 
+<form class="delete-form" action="/posts/<%= post._id %>?_method=DELETE" method="POST">
+    <button class="btn btn-xs btn-danger">Delete</button>
+</form>
+
 <% include ../partials/footer %>

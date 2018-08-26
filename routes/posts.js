@@ -21,7 +21,7 @@ router.post("/", function(req, res){
             console.log(err);
         } else {
             // redirect back to campgrounds page
-            res.redirect("/");
+            res.redirect("post/index");
         }
     });
 });
@@ -36,6 +36,16 @@ router.get("/:id", function(req, res){
         } 
         // render show template with that post
         res.render("posts/show", {post: foundPost});
+    });
+});
+
+// POST - DESTROY ROUTE
+router.delete("/:id", function(req, res){
+    Post.findByIdAndRemove(req.params.id, function(err, foundPost){
+       if(err || !foundPost){
+           return res.redirect("/");
+       }
+       res.render("posts/index");
     });
 });
 
