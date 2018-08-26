@@ -4,6 +4,7 @@
 
 <p><%- post.content %></p>
 
+<p><a class="btn btn-xs btn-warning" href="/posts/<%= post._id %>/edit">Edit</a></p>
 <form class="delete-form" action="/posts/<%= post._id %>?_method=DELETE" method="POST">
     <button class="btn btn-xs btn-danger">Delete</button>
 </form>

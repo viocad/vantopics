@@ -20,8 +20,8 @@ router.post("/", function(req, res){
         if(err){
             console.log(err);
         } else {
-            // redirect back to campgrounds page
-            res.redirect("post/index");
+            // redirect back to posts page
+            res.redirect("/posts/" + newlyCreated._id);
         }
     });
 });
@@ -37,6 +37,26 @@ router.get("/:id", function(req, res){
         // render show template with that post
         res.render("posts/show", {post: foundPost});
     });
+});
+
+// POST - EDIT ROUTE
+router.get("/:id/edit", function(req, res){
+    Post.findById(req.params.id, function(err, foundPost){
+        if(err || !foundPost){
+            return res.redirect("/");
+        }
+        res.render("posts/edit", {post: foundPost});
+    });
+});
+
+// POST - UPDATE ROUTE
+router.put("/:id", function(req, res){
+   Post.findByIdAndUpdate(req.params.id, req.body.post, function(err, updatedPost){
+      if(err || !updatedPost){
+          return res.redirect("/");
+      } 
+      res.redirect("/posts/" + updatedPost._id);
+   });
 });
 
 // POST - DESTROY ROUTE
