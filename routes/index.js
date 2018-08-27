@@ -22,7 +22,13 @@ router.get("/", function(req, res){
 
 // ADMIN INDEX ROUTE
 router.get("/admin", function(req, res){
-   res.render("posts/index");
+    Post.find({}, function(err, allPosts){
+        if(err){
+            console.log(err);
+        } else{
+            res.render("posts/index", {posts: allPosts});
+        }
+    });
 });
 
 module.exports = router;

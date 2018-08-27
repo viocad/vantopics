@@ -2,6 +2,8 @@
 
 <h4><%= post.title %></h4>
 
+<p><%= post.category.name %></p>
+
 <p><%- post.content %></p>
 
 <p><a class="btn btn-xs btn-warning" href="/posts/<%= post._id %>/edit">Edit</a></p>

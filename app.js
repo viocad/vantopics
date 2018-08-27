@@ -12,7 +12,8 @@ var express             = require("express"),
     flash               = require("connect-flash"),
     indexRoutes         = require("./routes/index.js"),
     userRoutes          = require("./routes/users.js"),
-    postRoutes          = require("./routes/posts.js");
+    postRoutes          = require("./routes/posts.js"),
+    categoryRoutes      = require("./routes/categories.js");
 
 // BASIC CONFIG
 mongoose.connect(process.env.DB_URL);
@@ -38,9 +39,7 @@ app.locals.moment = require("moment");
 app.use(indexRoutes);
 app.use("/admin", userRoutes);
 app.use("/posts", postRoutes);
-/*
-app.use("/campgrounds", campgroundRoutes); 
-app.use("/campgrounds/:id/comments", commentRoutes);*/
+app.use("/admin/categories", categoryRoutes);
 
 
 // STARTUP SERVER

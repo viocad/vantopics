@@ -3,26 +3,41 @@ var express         = require("express"),
     passport        = require("passport"),
     mongoose        = require("mongoose"),
     Post            = require("../models/post.js"),
+    Category        = require("../models/category.js"),
     User            = require("../models/user.js");
 
 
 // POST - NEW ROUTE
 router.get("/new", function(req, res){
-   res.render("posts/new");
+    Category.find({}, function(err, allCategories){
+        if(err){
+            return res.redirect("/");
+        }
+        res.render("posts/new", {categories: allCategories});
+    });
 });
 
 // POST - CREATE ROUTE
 router.post("/", function(req, res){
     // get post data from webpage
-    var newPost = req.body.post; 
-    // create a new post and save to DB
-    Post.create(newPost, function(err, newlyCreated){
-        if(err){
-            console.log(err);
-        } else {
-            // redirect back to posts page
-            res.redirect("/posts/" + newlyCreated._id);
+    var newPost = req.body.post;
+    Category.findById(req.body.category, function(err, foundCategory){
+        if(err || !foundCategory){
+            return res.redirect("/");
         }
+        newPost.category = {
+            id: req.body.category,
+            name: foundCategory.name
+        }; 
+        
+        // create a new post and save to DB
+        Post.create(newPost, function(err, newlyCreated){
+            if(err){
+                console.log(err);
+            } else {
+                res.redirect("/posts/" + newlyCreated._id);
+            }
+        });
     });
 });
 
@@ -65,7 +80,12 @@ router.delete("/:id", function(req, res){
        if(err || !foundPost){
            return res.redirect("/");
        }
-       res.render("posts/index");
+       Post.find({}, function(err, allPosts){
+           if(err){
+               return res.redirect("/");
+           }
+           res.render("posts/index", {posts: allPosts});
+       });
     });
 });
 

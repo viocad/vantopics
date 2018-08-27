@@ -7,7 +7,14 @@ var postSchema = new mongoose.Schema({
    content: String,
    createdAt: {
       type: Date,
-      default: Date.now
+      default: new Date()
+   },
+   category: {
+      id: {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: "Category"
+      },
+      name: String
    },
    author: {
       id: {
