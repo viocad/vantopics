@@ -37,4 +37,45 @@ router.post("/", function(req, res){
     });
 });
 
+// CATEGORY - SHOW ROUTE
+router.get("/:id", function(req, res) {
+    Post.find({ "category.id": req.params.id }, function(err, foundPosts){
+        if(err || !foundPosts){
+            return res.redirect("/admin");
+        } 
+        res.render("categories/show", {posts: foundPosts});
+    }); 
+});
+
+// CATEGORY - EDIT ROUTE
+router.get("/:id/edit", function(req, res) {
+    Category.findById(req.params.id).exec(function(err, foundCategory){
+        if(err || !foundCategory){
+            return res.redirect("/admin");
+        }    
+        res.render("categories/edit", {category: foundCategory}); 
+    });
+});
+
+// CATEGORY - UPDATE ROUTE
+router.put("/:id", function(req, res){
+    Category.findByIdAndUpdate(req.params.id, req.body.category, function(err, updatedCategory){
+        if(err){
+            return res.redirect("/admin");
+        }
+        res.redirect("/admin/categories");
+    });
+});
+
+// CATEGORY - DESDROY ROUTE
+router.delete("/:id", function(req, res){
+    Category.findByIdAndRemove(req.params.id, function(err, foundCategory){
+        if(err || !foundCategory){
+            return res.redirect("/admin");
+        } 
+        res.redirect("/admin/categories");
+    });
+});
+
+
 module.exports = router;

@@ -58,20 +58,37 @@ router.get("/:id", function(req, res){
 router.get("/:id/edit", function(req, res){
     Post.findById(req.params.id, function(err, foundPost){
         if(err || !foundPost){
-            return res.redirect("/");
+            return res.redirect("/admin");
         }
-        res.render("posts/edit", {post: foundPost});
+        Category.find({}, function(err, allCategories){
+            if(err){
+                return res.redirect("/admin")
+            }
+            res.render("posts/edit", {post: foundPost, categories: allCategories});
+        });
+        
     });
 });
 
 // POST - UPDATE ROUTE
 router.put("/:id", function(req, res){
-   Post.findByIdAndUpdate(req.params.id, req.body.post, function(err, updatedPost){
-      if(err || !updatedPost){
-          return res.redirect("/");
-      } 
-      res.redirect("/posts/" + updatedPost._id);
-   });
+    var postToUdate = req.body.post;
+    Category.findById(req.body.category, function(err, foundCategory) {
+        if(err || !foundCategory){
+            return res.redirect("/admin");
+        }
+        postToUdate.category = {
+        id: req.body.category,
+        name: foundCategory.name
+        }
+        console.log(postToUdate);
+        Post.findByIdAndUpdate(req.params.id, postToUdate, function(err, updatedPost){
+          if(err || !updatedPost){
+              return res.redirect("/");
+          } 
+          res.redirect("/posts/" + updatedPost._id);
+       });
+    });
 });
 
 // POST - DESTROY ROUTE
@@ -80,12 +97,7 @@ router.delete("/:id", function(req, res){
        if(err || !foundPost){
            return res.redirect("/");
        }
-       Post.find({}, function(err, allPosts){
-           if(err){
-               return res.redirect("/");
-           }
-           res.render("posts/index", {posts: allPosts});
-       });
+       res.redirect("/admin");
     });
 });
 

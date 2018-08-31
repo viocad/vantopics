@@ -2,6 +2,7 @@ var express         = require("express"),
     router          = express.Router(),
     passport        = require("passport"),
     Post            = require("../models/post.js"),
+    Category        = require("../models/category.js")
     User            = require("../models/user.js");
     // multer          = require("multer"),
     // cloudinary      = require("cloudinary"),
@@ -24,10 +25,9 @@ router.get("/", function(req, res){
 router.get("/admin", function(req, res){
     Post.find({}, function(err, allPosts){
         if(err){
-            console.log(err);
-        } else{
-            res.render("posts/index", {posts: allPosts});
-        }
+            return res.redirect("/admin");
+        } 
+        res.render("posts/index", {posts: allPosts});
     });
 });
 

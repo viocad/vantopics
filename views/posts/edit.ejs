@@ -12,6 +12,19 @@
             </div>
             
             <div class="form-group">
+                <label for="title">分類</label>
+                <select name="category">
+                    <% categories.forEach(function(category){ %>
+                        <% if(toString(post.category.id) === toString(category._id)){ %>
+                            <option value="<%= category._id %>" selected="selected"><%= category.name %></option>
+                        <% } else { %>    
+                            <option value="<%= category._id %>"><%= category.name %></option>
+                        <% } %>
+                    <% }); %>
+                </select>
+            </div>
+            
+            <div class="form-group">
                 <label for="firstPara">第一段</label>
                 <input type="text" class="form-control" name="post[firstPara]" required rows="5" value="<%= post.firstPara %>">
             </div>
