@@ -13,13 +13,10 @@
             
             <div class="form-group">
                 <label for="title">分類</label>
-                <select name="category">
+                <select name="category" class="form-control">
+                    <option value="<%= post.category.id %>" selected="selected"><%= post.category.name %></option>
                     <% categories.forEach(function(category){ %>
-                        <% if(toString(post.category.id) === toString(category._id)){ %>
-                            <option value="<%= category._id %>" selected="selected"><%= category.name %></option>
-                        <% } else { %>    
-                            <option value="<%= category._id %>"><%= category.name %></option>
-                        <% } %>
+                        <option value="<%= category._id %>"><%= category.name %></option>
                     <% }); %>
                 </select>
             </div>

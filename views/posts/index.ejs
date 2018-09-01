@@ -1,6 +1,13 @@
 <% include ../partials/admin-header %>
 
-<h4>所有文章</h4>
+<div class="row">
+    <div class="col">
+        <h4>所有文章</h4>
+    </div>
+    <div class="col" align="right">
+        <a href="/posts/new">寫新文章</a>
+    </div>
+</div>
 
 <div class="table-responsive">
     <table class="table table-hover">
@@ -15,12 +22,20 @@
                 <tr>
                     <td><a href="/posts/<%= post._id %>"><%= post.title %></a></td>
                     <td><a href="/admin/categories/<%= post.category.id %>"><%= post.category.name %></a></td>
-                    <td><%= post.createdAt.getFullYear() %>.<%= post.createdAt.getMonth()+1 %>.<%= post.createdAt.getDate() %></td>
+                    <td><%= post.createdAt.getFullYear() %>年<%= post.createdAt.getMonth()+1 %>月<%= post.createdAt.getDate() %>日</td>
                     <td><%= post.author.username %></td>
                 </tr>
             <% }); %>
         </tbody>
     </table>
+</div>
+
+<div class="row">
+    <div class="col" align="center">
+        <% for(i=1; i<=pages; i++){ %>
+            <a href="/admin/?pageNo=<%= i %>"><button class="btn btn-xs"><%= i %></button></a>
+        <% } %>
+    </div>
 </div>
 
 <% include ../partials/admin-footer %>

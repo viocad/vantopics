@@ -1,4 +1,6 @@
-<% include ./partials/header %>
+<% include ../../partials/header %>
+
+<h4><%= posts[0].category.name %></h4>
 
 <% posts.forEach(function(post){ %>
     <div>
@@ -17,10 +19,9 @@
 <div class="row">
     <div class="col" align="center">
         <% for(i=1; i<=pages; i++){ %>
-            <a href="/?pageNo=<%= i %>"><button class="btn btn-xs"><%= i %></button></a>
+            <a href="/categories/<%= posts[0].category.id %>/?pageNo=<%= i %>"><button class="btn btn-xs"><%= i %></button></a>
         <% } %>
     </div>
 </div>
 
-
-<% include ./partials/footer %>
+<% include ../../partials/footer %>

@@ -44,13 +44,18 @@ router.post("/", function(req, res){
 // POST - SHOW ROUTE
 router.get("/:id", function(req, res){
     // find the post with provided id
-    Post.findById(req.params.id).exec(function(err, foundPost){
-        if(err || !foundPost){
-            // req.flash("error", "Sorry, that post does not exist.");
-            return res.redirect("/");
-        } 
-        // render show template with that post
-        res.render("posts/show", {post: foundPost});
+    Category.find({}, function(err, allCategories) {
+        if(err){
+            return console.log(err);
+        }
+        Post.findById(req.params.id).exec(function(err, foundPost){
+            if(err || !foundPost){
+                // req.flash("error", "Sorry, that post does not exist.");
+                return res.redirect("/");
+            } 
+            // render show template with that post
+            res.render("posts/show", {post: foundPost, categories: allCategories});
+        });
     });
 });
 
@@ -60,7 +65,7 @@ router.get("/:id/edit", function(req, res){
         if(err || !foundPost){
             return res.redirect("/admin");
         }
-        Category.find({}, function(err, allCategories){
+        Category.find({_id: {$ne: foundPost.category.id}}, function(err, allCategories){
             if(err){
                 return res.redirect("/admin")
             }
@@ -81,7 +86,7 @@ router.put("/:id", function(req, res){
         id: req.body.category,
         name: foundCategory.name
         }
-        console.log(postToUdate);
+        
         Post.findByIdAndUpdate(req.params.id, postToUdate, function(err, updatedPost){
           if(err || !updatedPost){
               return res.redirect("/");

@@ -7,3 +7,21 @@
 #adminForm {
     margin-top: 50px;
 }
+
+.btn {
+    margin-top: 10px;
+    margin-right: 5px;
+}
+
+p {
+    margin-bottom: 10px;
+}
+
+h4 {
+    margin-bottom: 30px;
+}
+
+#authorAndDate {
+    color: grey;
+    text-align: right;
+}

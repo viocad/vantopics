@@ -2,18 +2,19 @@
 require('dotenv').config();
 
 // DEFINING VARIABLES
-var express             = require("express"),
-    app                 = express(),
-    bodyParser          = require("body-parser"),
-    mongoose            = require("mongoose"),
-    passport            = require("passport"),
-    LocalStrategy       = require("passport-local"),
-    methodOverride      = require("method-override"),
-    flash               = require("connect-flash"),
-    indexRoutes         = require("./routes/index.js"),
-    userRoutes          = require("./routes/users.js"),
-    postRoutes          = require("./routes/posts.js"),
-    categoryRoutes      = require("./routes/categories.js");
+var express                 = require("express"),
+    app                     = express(),
+    bodyParser              = require("body-parser"),
+    mongoose                = require("mongoose"),
+    passport                = require("passport"),
+    LocalStrategy           = require("passport-local"),
+    methodOverride          = require("method-override"),
+    flash                   = require("connect-flash"),
+    indexRoutes             = require("./routes/index.js"),
+    userRoutes              = require("./routes/users.js"),
+    postRoutes              = require("./routes/posts.js"),
+    categoryRoutes          = require("./routes/categories.js"),
+    publicCategoryRoutes    = require("./routes/publiccategories.js");
 
 // BASIC CONFIG
 mongoose.connect(process.env.DB_URL);
@@ -40,6 +41,7 @@ app.use(indexRoutes);
 app.use("/admin", userRoutes);
 app.use("/posts", postRoutes);
 app.use("/admin/categories", categoryRoutes);
+app.use("/categories", publicCategoryRoutes);
 
 
 // STARTUP SERVER

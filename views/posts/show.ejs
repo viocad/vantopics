@@ -2,13 +2,24 @@
 
 <h4><%= post.title %></h4>
 
-<p><%= post.category.name %></p>
+<p><a href="/categories/<%= post.category.id %>"><%= post.category.name %></a></p>
 
-<p><%- post.content %></p>
+<%- post.content %>
 
-<p><a class="btn btn-xs btn-warning" href="/posts/<%= post._id %>/edit">Edit</a></p>
-<form class="delete-form" action="/posts/<%= post._id %>?_method=DELETE" method="POST">
-    <button class="btn btn-xs btn-danger">Delete</button>
-</form>
+<p id="authorAndDate">發佈日期：<%= post.createdAt.getFullYear() %>年<%= post.createdAt.getMonth()+1 %>月<%= post.createdAt.getDate() %>日 | 作者：<%= post.author.username %></p>
+
+<div class="row">
+    <div class="col">
+        <a class="btn btn-xs btn-warning" href="/posts/<%= post._id %>/edit">編輯</a>
+    
+        <form class="delete-form" action="/posts/<%= post._id %>?_method=DELETE" method="POST">
+            <button class="btn btn-xs btn-danger">刪除</button>
+        </form>
+        
+        <a href="/"><button class="btn btn-xs btn-primary">回到首頁</button></a>
+        
+        <a href="/admin"><button class="btn btn-xs btn-primary">所有文章</button></a>
+    </div>
+</div>
 
 <% include ../partials/footer %>

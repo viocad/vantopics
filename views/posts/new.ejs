@@ -13,7 +13,7 @@
             
             <div class="form-group">
                 <label for="title">分類</label>
-                <select name="category">
+                <select name="category" class="form-control">
                     <option value="" selected="selected"></option>
                     <% categories.forEach(function(category){ %>
                         <option value="<%= category._id %>"><%= category.name %></option>
