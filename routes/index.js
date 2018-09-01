@@ -44,6 +44,26 @@ router.get("/", function(req, res){
     });
 });
 
+// ABOUT ROUTE
+router.get("/about", function(req, res) {
+    Category.find({}, function(err, allCategories){
+        if(err){
+            return console.log(err);
+        }
+        res.render("about", {categories: allCategories});
+    });
+});
+
+// CONTACT ROUTE
+router.get("/contact", function(req, res) {
+    Category.find({}, function(err, allCategories){
+        if(err){
+            return console.log(err);
+        }
+        res.render("contact", {categories: allCategories});
+    });
+});
+
 // ADMIN INDEX ROUTE
 router.get("/admin", function(req, res){
     // pagination
