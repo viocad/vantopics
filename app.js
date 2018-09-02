@@ -10,11 +10,12 @@ var express                 = require("express"),
     LocalStrategy           = require("passport-local"),
     methodOverride          = require("method-override"),
     flash                   = require("connect-flash"),
-    indexRoutes             = require("./routes/index.js"),
-    userRoutes              = require("./routes/users.js"),
-    postRoutes              = require("./routes/posts.js"),
-    categoryRoutes          = require("./routes/categories.js"),
-    publicCategoryRoutes    = require("./routes/publiccategories.js");
+    indexRoutes             = require("./routes/index"),
+    User                    = require("./models/user"),
+    userRoutes              = require("./routes/users"),
+    postRoutes              = require("./routes/posts"),
+    categoryRoutes          = require("./routes/categories"),
+    publicCategoryRoutes    = require("./routes/publiccategories");
 
 // BASIC CONFIG
 mongoose.connect(process.env.DB_URL);
@@ -25,16 +26,29 @@ app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
 
+// REQUIRE MOMENT.JS
+// app.locals.moment = require("moment");
+
+// PASSPORT CONFIGURATION
+app.use(require("express-session")({
+    secret: "Pudding is the cutest!",
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+// the last 3 lines come with passport-local-mongoose package
+
 // RES.LOCALS
 app.use(function(req, res, next){
     res.locals.currentUser = req.user;
-    // res.locals.error = req.flash("error");
-    // res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
     next();
 });
-
-// REQUIRE MOMENT.JS
-app.locals.moment = require("moment");
 
 // ROUTES
 app.use(indexRoutes);

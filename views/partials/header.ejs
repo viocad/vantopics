@@ -45,6 +45,12 @@
                             <a class="nav-link" href="/contact">聯絡站長</a>
                         </li>
                         
+                        <% if(currentUser){ %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin">返回後台</a>
+                            </li>
+                        <% } %>
+                        
                     </ul>
                     
                     <form class="form-inline my-2 my-lg-0">

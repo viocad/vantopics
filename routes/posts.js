@@ -2,13 +2,14 @@ var express         = require("express"),
     router          = express.Router(),
     passport        = require("passport"),
     mongoose        = require("mongoose"),
+    middleware      = require("../middleware"),
     Post            = require("../models/post.js"),
     Category        = require("../models/category.js"),
     User            = require("../models/user.js");
 
 
 // POST - NEW ROUTE
-router.get("/new", function(req, res){
+router.get("/new", middleware.isLoggedIn, function(req, res){
     Category.find({}, function(err, allCategories){
         if(err){
             return res.redirect("/");
@@ -18,7 +19,7 @@ router.get("/new", function(req, res){
 });
 
 // POST - CREATE ROUTE
-router.post("/", function(req, res){
+router.post("/", middleware.isLoggedIn, function(req, res){
     // get post data from webpage
     var newPost = req.body.post;
     Category.findById(req.body.category, function(err, foundCategory){
@@ -60,7 +61,7 @@ router.get("/:id", function(req, res){
 });
 
 // POST - EDIT ROUTE
-router.get("/:id/edit", function(req, res){
+router.get("/:id/edit", middleware.isLoggedIn, function(req, res){
     Post.findById(req.params.id, function(err, foundPost){
         if(err || !foundPost){
             return res.redirect("/admin");
@@ -76,7 +77,7 @@ router.get("/:id/edit", function(req, res){
 });
 
 // POST - UPDATE ROUTE
-router.put("/:id", function(req, res){
+router.put("/:id", middleware.isLoggedIn, function(req, res){
     var postToUdate = req.body.post;
     Category.findById(req.body.category, function(err, foundCategory) {
         if(err || !foundCategory){
@@ -97,7 +98,7 @@ router.put("/:id", function(req, res){
 });
 
 // POST - DESTROY ROUTE
-router.delete("/:id", function(req, res){
+router.delete("/:id", middleware.isLoggedIn, function(req, res){
     Post.findByIdAndRemove(req.params.id, function(err, foundPost){
        if(err || !foundPost){
            return res.redirect("/");

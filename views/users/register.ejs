@@ -1,0 +1,33 @@
+<div class="container border">
+        
+        <form id="registerForm" action="/admin/puddingreg" method="POST">
+            
+            <div>
+                <label for="username">名稱</label>
+                <input type="text" name="user[username]" required>
+            </div>
+            
+            <div>
+                <label for="email">電郵</label>
+                <input type="email" name="user[email]" required>
+            </div>
+            
+            <div>
+                <label for="password">密碼</label>
+                <input type="password" name="password" required>
+            </div>
+            
+            <div>
+                <label for="adminCode">暗號</label>
+                <input type="text" name="adminCode" required>
+            </div>
+            
+            
+            <button type="submit" class="btn btn-success">發送</button>
+            <a href="/" class="btn btn-danger">取消</a>
+            
+            
+        </form>
+
+        
+    </div>
