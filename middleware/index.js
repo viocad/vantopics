@@ -6,11 +6,10 @@ var Post            = require("../models/post"),
 var middlewareObj = {};
 
 middlewareObj.isAdmin = function(req, res, next){
-    if(req.body.adminCode === process.env.ADMIN_CODE){
-        return next();
+    if(req.body.adminCode != process.env.ADMIN_CODE){
+        return res.redirect("/");
     }
-    req.flash("error", "你不應該在這裡");
-    res.redirect("/");
+    next();
 };
 
 middlewareObj.isLoggedIn = function(req, res, next){

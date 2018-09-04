@@ -9,6 +9,8 @@ var express                 = require("express"),
     passport                = require("passport"),
     LocalStrategy           = require("passport-local"),
     methodOverride          = require("method-override"),
+    session                 = require("cookie-session"),
+    cookieParser            = require("cookie-parser"),
     flash                   = require("connect-flash"),
     indexRoutes             = require("./routes/index"),
     User                    = require("./models/user"),
@@ -24,16 +26,17 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
-app.use(flash());
 
 // REQUIRE MOMENT.JS
 // app.locals.moment = require("moment");
 
 // PASSPORT CONFIGURATION
-app.use(require("express-session")({
-    secret: "Pudding is the cutest!",
+app.use(cookieParser(process.env.SESSION_SECRET));
+app.use(session({
+    secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: { secure: true, maxAge: 60000 }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -41,6 +44,8 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 // the last 3 lines come with passport-local-mongoose package
+
+app.use(flash(app));
 
 // RES.LOCALS
 app.use(function(req, res, next){

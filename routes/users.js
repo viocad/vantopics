@@ -18,12 +18,15 @@ router.post("/puddingreg", middleware.isAdmin, function(req, res){
             req.flash("error", "Try again!");
             return res.redirect("/admin/puddingreg");
         }
-        passport.authenticate("local")(req, res, function(){
-            req.flash("success", "Welcome");
-            res.redirect("/admin");
+        passport.authenticate("local");
+        req.login(user, function(err){
+            if(err){
+                return res.redirect("/");
+            }
         });
     });
-}); // getting Bad Request error... don't know why
+    res.redirect("/admin");
+});
 
 // login form
 router.get("/login", function(req, res){

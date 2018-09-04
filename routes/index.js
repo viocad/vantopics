@@ -38,6 +38,7 @@ router.get("/", function(req, res){
                if(err){
                    return console.log(err);
                }
+               req.flash("success", "Hi.");
                res.render("index", {posts: allPosts, pages: numPages, categories: allCategories});
            });
         });    
