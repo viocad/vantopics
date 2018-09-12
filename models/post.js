@@ -21,7 +21,7 @@ var postSchema = new mongoose.Schema({
          type: mongoose.Schema.Types.ObjectId,
          ref: "User"
       },
-      username: String
+      name: String
    },
    comments: [ // reference to the comment using id
       {

@@ -23,9 +23,11 @@ router.post("/puddingreg", middleware.isAdmin, function(req, res){
             if(err){
                 return res.redirect("/");
             }
+            res.redirect("/admin")
         });
+        
     });
-    res.redirect("/admin");
+    
 });
 
 // login form
@@ -37,7 +39,8 @@ router.get("/login", function(req, res){
 router.post("/login", passport.authenticate("local",
     {
         successRedirect: "/admin",
-        failedRedirect: "/"
+        failedRedirect: "/",
+        failureFlash: true
     }), function(req, res){
 });
 

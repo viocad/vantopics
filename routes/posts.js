@@ -30,6 +30,10 @@ router.post("/", middleware.isLoggedIn, function(req, res){
             id: req.body.category,
             name: foundCategory.name
         }; 
+        newPost.author = {
+            id: req.user._id,
+            name: req.user.username
+        }
         
         // create a new post and save to DB
         Post.create(newPost, function(err, newlyCreated){

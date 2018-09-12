@@ -23,7 +23,7 @@
                     <td><a href="/posts/<%= post._id %>"><%= post.title %></a></td>
                     <td><a href="/admin/categories/<%= post.category.id %>"><%= post.category.name %></a></td>
                     <td><%= post.createdAt.getFullYear() %>年<%= post.createdAt.getMonth()+1 %>月<%= post.createdAt.getDate() %>日</td>
-                    <td><%= post.author.username %></td>
+                    <td><%= post.author.name %></td>
                 </tr>
             <% }); %>
         </tbody>

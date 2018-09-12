@@ -7,6 +7,7 @@ var middlewareObj = {};
 
 middlewareObj.isAdmin = function(req, res, next){
     if(req.body.adminCode != process.env.ADMIN_CODE){
+        req.flash("error", "You shouldn't be here!");
         return res.redirect("/");
     }
     next();
