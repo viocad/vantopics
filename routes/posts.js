@@ -15,7 +15,7 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
             req.flash("error", "Category.find()出問題！");
             return res.redirect("/");
         }
-        res.render("posts/new", {categories: allCategories});
+        res.render("posts/new", {categories: allCategories, date: new Date()});
     });
 });
 
@@ -36,6 +36,10 @@ router.post("/", middleware.isLoggedIn, function(req, res){
             id: req.user._id,
             name: req.user.username
         }
+        newPost.createdAt = new Date();
+        newPost.createdAt.setFullYear(req.body.date.year);
+        newPost.createdAt.setMonth(req.body.date.month - 1);
+        newPost.createdAt.setDate(req.body.date.day);
         
         // create a new post and save to DB
         Post.create(newPost, function(err, newlyCreated){
@@ -97,7 +101,10 @@ router.put("/:id", middleware.isLoggedIn, function(req, res){
         id: req.body.category,
         name: foundCategory.name
         }
-        
+        postToUdate.createdAt = new Date();
+        postToUdate.createdAt.setFullYear(req.body.date.year);
+        postToUdate.createdAt.setMonth(req.body.date.month - 1);
+        postToUdate.createdAt.setDate(req.body.date.day);
         Post.findByIdAndUpdate(req.params.id, postToUdate, function(err, updatedPost){
           if(err || !updatedPost){
               req.flash("error", "系統出錯，更新文章失敗！");
