@@ -32,14 +32,10 @@ router.get("/", function(req, res){
            if(err){
                return console.log(err);
            }
-           /*allPosts.forEach(function(post){
-               console.log(post.createdAt);
-           });*/
            Category.find({}, function(err, allCategories){
                if(err){
                    return console.log(err);
                }
-               req.flash("success", "Hi.");
                res.render("index", {posts: allPosts, pages: numPages, categories: allCategories});
            });
         });    
@@ -66,7 +62,7 @@ router.get("/contact", function(req, res) {
     });
 });
 
-// CONTACT POST ROUTE
+// CONTACT CREATE ROUTE
 router.post("/contact", recaptcha.middleware.verify, middleware.checkcaptcha, function(req, res){
     Category.find({}, function(err, allCategories){
         if(err){
@@ -74,10 +70,9 @@ router.post("/contact", recaptcha.middleware.verify, middleware.checkcaptcha, fu
         }
         Contact.create(req.body.contact, function(err, newlyCreated){
             if(err){
-                req.flash("Try again!");
-                return console.log(err);
+                req.flash("error", "系統出錯，未能提交留言，請稍後再試！");
             }
-            req.flash("Thanks for your comment/question! We will response to you ASAP.");
+            req.flash("success", "我們已收到您的留言，會盡快回復您的！");
             res.redirect("/");
         });
         

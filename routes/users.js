@@ -12,6 +12,7 @@ var recaptcha = new Recaptcha(process.env.RECAPTCHA_SITEKEY, process.env.RECAPTC
 // register form
 router.get("/puddingreg", recaptcha.middleware.render, function(req, res){
     if(req.isAuthenticated()){
+        req.flash("error", "你已經登入了，估計也不用註冊賬號了吧！");
         res.redirect("/admin");
     }
     res.render("users/register", {page: "register", captcha: res.recaptcha});
@@ -22,14 +23,16 @@ router.post("/puddingreg", middleware.isAdmin, recaptcha.middleware.verify, midd
     var newUser = new User(req.body.user);
     User.register(newUser, req.body.password, function(err, user){
         if(err){
-            req.flash("error", "Try again!");
+            req.flash("error", "系統錯誤，註冊未成功！");
             return res.redirect("/admin/puddingreg");
         }
         // passport.authenticate("local");
         req.login(user, function(err){
             if(err){
+                req.flash("error", "系統錯誤，登入不了！");
                 return res.redirect("/");
             }
+            req.flash("success", "註冊成功！");
             res.redirect("/admin")
         });
     });
@@ -44,8 +47,7 @@ router.get("/login", recaptcha.middleware.render, function(req, res){
 router.post("/login", recaptcha.middleware.verify, middleware.checkcaptcha, passport.authenticate("local",
     {
         successRedirect: "/admin",
-        failedRedirect: "/",
-        failureFlash: true
+        failedRedirect: "/"
     }), function(req, res){
 });
 
@@ -69,9 +71,10 @@ router.get("/", middleware.isLoggedIn, function(req, res){
         var numPages = Math.ceil(numPosts/size);
         Post.find({}, {}, cursor, function(err, allPosts){
             if(err){
+                req.flash("error", "Post.find()出錯！");
                 return res.redirect("/admin");
             } 
-            res.render("posts/index", {posts: allPosts, pages: numPages});
+            res.render("posts/index", {posts: allPosts, pages: numPages, message: req.flash("error")});
         });
     });
 });
@@ -80,7 +83,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
 
 router.get("/logout", middleware.isLoggedIn, function(req, res){
     req.logout();
-    req.flash("success", "Logged you out!"); // as we add res.locals.message = req.flash("error"); in app.js already, we can just add this line here to make the flash message show up
+    req.flash("success", "登出成功!");
     res.redirect("/");
 });
 
@@ -104,10 +107,24 @@ router.get("/contact", middleware.isLoggedIn, function(req, res){
         var numPages = Math.ceil(numContacts/size);
         Contact.find({}, {}, cursor, function(err, allContacts){
             if(err){
+                req.flash("error", "Contact.find()出錯！");
                 return res.redirect("/admin");
             }
             res.render("users/contact", {contacts: allContacts, pages: numPages});
         });
+    });
+});
+
+// CONTACT DESTROY ROUTE
+
+router.delete("/contact/:id", middleware.isLoggedIn, function(req, res){
+    Contact.findByIdAndRemove(req.params.id, function(err, foundContact){
+       if(err || !foundContact){
+           req.flash("error", "系統出錯，再試一下！");
+           return res.redirect("/admin");
+       }
+       req.flash("success", "成功刪除留言");
+       res.redirect("/admin/contact");
     });
 });
 

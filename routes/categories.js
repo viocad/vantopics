@@ -12,7 +12,8 @@ var express         = require("express"),
 router.get("/", middleware.isLoggedIn, function(req, res){
   Category.find({}, function(err, allCategories){
       if(err){
-          return res.redirect("/");
+          req.flash("error", "Category.find()出問題！");
+          return res.redirect("/admin");
       } 
       res.render("categories/index", {categories: allCategories});
   }); 
@@ -30,9 +31,10 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     // create a new category and save to DB
     Category.create(newCategory, function(err, newlyCreated){
         if(err){
-            console.log(err);
+            req.flash("error", "系統錯誤，創立不了新分類！");
             res.redirect("/admin");
         } else {
+            req.flash("success", "成功創建分類");
             res.redirect("/admin/categories");
         }
     });
@@ -42,6 +44,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 router.get("/:id", middleware.isLoggedIn, function(req, res) {
     Post.find({ "category.id": req.params.id }, function(err, foundPosts){
         if(err || !foundPosts){
+            req.flash("error", "Post.find()出問題！");
             return res.redirect("/admin");
         } 
         res.render("categories/show", {posts: foundPosts});
@@ -52,6 +55,7 @@ router.get("/:id", middleware.isLoggedIn, function(req, res) {
 router.get("/:id/edit", middleware.isLoggedIn, function(req, res) {
     Category.findById(req.params.id).exec(function(err, foundCategory){
         if(err || !foundCategory){
+            req.flash("error", "系統錯誤，沒找到你要的分類！");
             return res.redirect("/admin");
         }    
         res.render("categories/edit", {category: foundCategory}); 
@@ -62,8 +66,10 @@ router.get("/:id/edit", middleware.isLoggedIn, function(req, res) {
 router.put("/:id", middleware.isLoggedIn, function(req, res){
     Category.findByIdAndUpdate(req.params.id, req.body.category, function(err, updatedCategory){
         if(err){
+            req.flash("error", "系統錯誤，再試一下！");
             return res.redirect("/admin");
         }
+        req.flash("success", "成功更新分類");
         res.redirect("/admin/categories");
     });
 });
@@ -72,8 +78,10 @@ router.put("/:id", middleware.isLoggedIn, function(req, res){
 router.delete("/:id", middleware.isLoggedIn, function(req, res){
     Category.findByIdAndRemove(req.params.id, function(err, foundCategory){
         if(err || !foundCategory){
+            req.flash("error", "系統錯誤，再試一下！");
             return res.redirect("/admin");
         } 
+        req.flash("success", "成功刪除分類");
         res.redirect("/admin/categories");
     });
 });

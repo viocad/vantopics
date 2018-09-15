@@ -65,4 +65,21 @@
         
         </div>
         
+        <% if(error && error.length > 0){ %> 
+            <div class="container">
+            <!--even error is an empty array, it's still true-->
+            <!--but we still need to check if error exists so as to prevent any errors jump out when we forget to set up res.locals in app.js-->
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div>    
+            </div>
+        <% } %>
+        <% if(success && success.length > 0){ %> 
+            <div class="container">
+                <div class="alert alert-success" role="alert">
+                    <%= success %>
+                </div>
+            </div>
+        <% } %>
+        
         <div class="container">

@@ -1,5 +1,7 @@
 <% include ../partials/admin-header %>
 
+<%= message %>
+
 <div class="row">
     <div class="col">
         <h4>所有留言</h4>
@@ -13,6 +15,7 @@
             <th>電郵</th>
             <th>內容</th>
             <th>日期</th>
+            <th></th>
         </thead>
         <tbody>
             <% contacts.forEach(function(contact){ %>
@@ -21,6 +24,9 @@
                     <td><%= contact.email %></a></td>
                     <td><%= contact.content %></a></td>
                     <td><%= contact.createdAt.getFullYear() %>年<%= contact.createdAt.getMonth()+1 %>月<%= contact.createdAt.getDate() %>日</td>
+                    <td><form class="delete-form" action="/admin/contact/<%= contact._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-xs btn-danger">刪除</button>
+                    </form></td>
                 </tr>
             <% }); %>
         </tbody>

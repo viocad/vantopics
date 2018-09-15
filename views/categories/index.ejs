@@ -19,9 +19,10 @@
         <tbody>
             <% categories.forEach(function(category){ %>
                 <tr>
-                    <td><a href="/admin/categories/<%= category._id %>/edit"><%= category.name %></a></td>
+                    <td><a href="/admin/categories/<%= category._id %>"><%= category.name %></a></td>
                     <td><%= category.description %></td>
-                    <td  align="right"><form class="delete-form" action="/admin/categories/<%= category._id %>?_method=DELETE" method="POST">
+                    <td  align="right"><a class="btn btn-xs btn-warning" href="/admin/categories/<%= category._id %>/edit">編輯</a>
+                    <form class="delete-form" action="/admin/categories/<%= category._id %>?_method=DELETE" method="POST">
                         <button class="btn btn-xs btn-danger">刪除</button>
                     </form></td>
                 </tr>

@@ -7,7 +7,7 @@ var middlewareObj = {};
 
 middlewareObj.isAdmin = function(req, res, next){
     if(req.body.adminCode != process.env.ADMIN_CODE){
-        req.flash("error", "You shouldn't be here!");
+        req.flash("error", "不好意思，您應該走錯地方了。");
         return res.redirect("/");
     }
     next();
@@ -17,9 +17,7 @@ middlewareObj.isLoggedIn = function(req, res, next){
     if(req.isAuthenticated()){
         return next();
     }
-    req.flash("error", "You need to be admin to do that."); // use "success" for green color and "error" for red color (nth with bootstrap, it's our own key, it can be whatever word)
-    // adding req.flash before res.redirect will not show flash right away.. this line will allow us to pass in the flash message to /login in this case when we render /login
-    // next step: go to app.js and pass in the message to all routes using res.locals
+    req.flash("error", "啊！閒人勿進！"); 
     res.redirect("/");
 };
 
@@ -27,7 +25,7 @@ middlewareObj.checkcaptcha = function(req, res, next){
     if(!req.recaptcha.error){
         next();
     } else{
-        req.flash("error", "Please prove you are human. =)");
+        req.flash("error", "請先證明您是個人 =）");
         res.redirect("back");
     }    
 };

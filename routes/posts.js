@@ -12,6 +12,7 @@ var express         = require("express"),
 router.get("/new", middleware.isLoggedIn, function(req, res){
     Category.find({}, function(err, allCategories){
         if(err){
+            req.flash("error", "Category.find()出問題！");
             return res.redirect("/");
         }
         res.render("posts/new", {categories: allCategories});
@@ -24,6 +25,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     var newPost = req.body.post;
     Category.findById(req.body.category, function(err, foundCategory){
         if(err || !foundCategory){
+            req.flash("error", "系統出錯，未能找到分類！");
             return res.redirect("/");
         }
         newPost.category = {
@@ -38,8 +40,9 @@ router.post("/", middleware.isLoggedIn, function(req, res){
         // create a new post and save to DB
         Post.create(newPost, function(err, newlyCreated){
             if(err){
-                console.log(err);
+                req.flash("error", "系統出錯，未能發佈新文章！");
             } else {
+                req.flash("success", "成功發佈新文章");
                 res.redirect("/posts/" + newlyCreated._id);
             }
         });
@@ -55,7 +58,7 @@ router.get("/:id", function(req, res){
         }
         Post.findById(req.params.id).exec(function(err, foundPost){
             if(err || !foundPost){
-                // req.flash("error", "Sorry, that post does not exist.");
+                req.flash("error", "抱歉，系統出錯，未能找到文章！");
                 return res.redirect("/");
             } 
             // render show template with that post
@@ -68,10 +71,12 @@ router.get("/:id", function(req, res){
 router.get("/:id/edit", middleware.isLoggedIn, function(req, res){
     Post.findById(req.params.id, function(err, foundPost){
         if(err || !foundPost){
+            req.flash("error", "系統出錯，未能找到文章！");
             return res.redirect("/admin");
         }
         Category.find({_id: {$ne: foundPost.category.id}}, function(err, allCategories){
             if(err){
+                req.flash("error", "Category.find()出問題！");
                 return res.redirect("/admin")
             }
             res.render("posts/edit", {post: foundPost, categories: allCategories});
@@ -85,6 +90,7 @@ router.put("/:id", middleware.isLoggedIn, function(req, res){
     var postToUdate = req.body.post;
     Category.findById(req.body.category, function(err, foundCategory) {
         if(err || !foundCategory){
+            req.flash("error", "系統出錯，未能找到分類！");
             return res.redirect("/admin");
         }
         postToUdate.category = {
@@ -94,8 +100,10 @@ router.put("/:id", middleware.isLoggedIn, function(req, res){
         
         Post.findByIdAndUpdate(req.params.id, postToUdate, function(err, updatedPost){
           if(err || !updatedPost){
-              return res.redirect("/");
+              req.flash("error", "系統出錯，更新文章失敗！");
+              return res.redirect("/admin");
           } 
+          req.flash("success", "成功更新文章");
           res.redirect("/posts/" + updatedPost._id);
        });
     });
@@ -105,8 +113,10 @@ router.put("/:id", middleware.isLoggedIn, function(req, res){
 router.delete("/:id", middleware.isLoggedIn, function(req, res){
     Post.findByIdAndRemove(req.params.id, function(err, foundPost){
        if(err || !foundPost){
-           return res.redirect("/");
+           req.flash("error", "系統出錯，刪除文章失敗！");
+           return res.redirect("/admin");
        }
+       req.flash("success", "成功刪除文章");
        res.redirect("/admin");
     });
 });
