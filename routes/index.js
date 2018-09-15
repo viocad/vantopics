@@ -1,13 +1,14 @@
 var express         = require("express"),
     router          = express.Router(),
+    middleware      = require("../middleware"),
     passport        = require("passport"),
     Post            = require("../models/post.js"),
     Category        = require("../models/category.js"),
-    User            = require("../models/user.js");
-    // multer          = require("multer"),
-    // cloudinary      = require("cloudinary"),
-    // Recaptcha       = require("express-recaptcha").Recaptcha;
+    User            = require("../models/user.js"),
+    Contact         = require("../models/contact.js"),
+    Recaptcha       = require("express-recaptcha").Recaptcha;
 
+var recaptcha = new Recaptcha(process.env.RECAPTCHA_SITEKEY, process.env.RECAPTCHA_SECRETKEY);
 
 // PUBLIC INDEX ROUTE
 router.get("/", function(req, res){
@@ -55,13 +56,31 @@ router.get("/about", function(req, res) {
     });
 });
 
-// CONTACT ROUTE
+// CONTACT ROUTE (NEW)
 router.get("/contact", function(req, res) {
     Category.find({}, function(err, allCategories){
         if(err){
             return console.log(err);
         }
         res.render("contact", {categories: allCategories});
+    });
+});
+
+// CONTACT POST ROUTE
+router.post("/contact", recaptcha.middleware.verify, middleware.checkcaptcha, function(req, res){
+    Category.find({}, function(err, allCategories){
+        if(err){
+            return console.log(err);
+        }
+        Contact.create(req.body.contact, function(err, newlyCreated){
+            if(err){
+                req.flash("Try again!");
+                return console.log(err);
+            }
+            req.flash("Thanks for your comment/question! We will response to you ASAP.");
+            res.redirect("/");
+        });
+        
     });
 });
 

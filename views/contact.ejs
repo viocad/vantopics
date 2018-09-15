@@ -9,22 +9,24 @@
         <form id="contactForm" action="/contact" method="POST">
             
             <div class="form-group">
-                <label for="name">名稱</label>
+                <label for="name">名稱 *</label>
                 <input type="text" class="form-control" name="contact[name]" required>
             </div>
             
             <div class="form-group">
-                <label for="email">電郵</label>
+                <label for="email">電郵 *</label>
                 <input type="email" class="form-control" name="contact[email]" required>
             </div>
             
             <div class="form-group">
-                <label for="firstPara">內容</label>
+                <label for="firstPara">內容 *</label>
                 <textarea class="form-control" name="contact[content]" required rows="5"></textarea>
             </div>
             
-            <button type="submit" class="btn btn-success">發送</button>
-            <a href="/" class="btn btn-danger">取消</a>
+            <div class="g-recaptcha form-group" data-sitekey="<%= process.env.RECAPTCHA_SITEKEY %>"></div>
+            
+            <div class="form-group"><button type="submit" class="btn btn-success">發送</button></div>
+            <div class="form-group"><a href="/" class="btn btn-danger">取消</a></div>
             
             
         </form>

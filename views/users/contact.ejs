@@ -1,0 +1,38 @@
+<% include ../partials/admin-header %>
+
+<div class="row">
+    <div class="col">
+        <h4>所有留言</h4>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <th>訪客</th>
+            <th>電郵</th>
+            <th>內容</th>
+            <th>日期</th>
+        </thead>
+        <tbody>
+            <% contacts.forEach(function(contact){ %>
+                <tr>
+                    <td><%= contact.name %></a></td>
+                    <td><%= contact.email %></a></td>
+                    <td><%= contact.content %></a></td>
+                    <td><%= contact.createdAt.getFullYear() %>年<%= contact.createdAt.getMonth()+1 %>月<%= contact.createdAt.getDate() %>日</td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</div>
+
+<div class="row">
+    <div class="col" align="center">
+        <% for(i=1; i<=pages; i++){ %>
+            <a href="/admin/?pageNo=<%= i %>"><button class="btn btn-xs"><%= i %></button></a>
+        <% } %>
+    </div>
+</div>
+
+<% include ../partials/admin-footer %>
