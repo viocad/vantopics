@@ -2,23 +2,29 @@ var express         = require("express"),
     router          = express.Router(),
     middleware      = require("../middleware"),
     passport        = require("passport"),
+    Recaptcha       = require("express-recaptcha").Recaptcha,
     Post            = require("../models/post"),
     User            = require("../models/user");
     
+var recaptcha = new Recaptcha(process.env.RECAPTCHA_SITEKEY, process.env.RECAPTCHA_SECRETKEY);
+    
 // register form
-router.get("/puddingreg", function(req, res){
-    res.render("users/register", {page: "register"});
+router.get("/puddingreg", recaptcha.middleware.render, function(req, res){
+    if(req.isAuthenticated()){
+        res.redirect("/admin");
+    }
+    res.render("users/register", {page: "register", captcha: res.recaptcha});
 });
 
 // handle signup logic
-router.post("/puddingreg", middleware.isAdmin, function(req, res){
+router.post("/puddingreg", middleware.isAdmin, recaptcha.middleware.verify, middleware.checkcaptcha, function(req, res){
     var newUser = new User(req.body.user);
     User.register(newUser, req.body.password, function(err, user){
         if(err){
             req.flash("error", "Try again!");
             return res.redirect("/admin/puddingreg");
         }
-        passport.authenticate("local");
+        // passport.authenticate("local");
         req.login(user, function(err){
             if(err){
                 return res.redirect("/");
@@ -31,12 +37,12 @@ router.post("/puddingreg", middleware.isAdmin, function(req, res){
 });
 
 // login form
-router.get("/login", function(req, res){
-   res.render("users/admin", {page: "login"});
+router.get("/login", recaptcha.middleware.render, function(req, res){
+   res.render("users/admin", {page: "login", captcha: res.recaptcha});
 });
 
 // handle login logic
-router.post("/login", passport.authenticate("local",
+router.post("/login", recaptcha.middleware.verify, middleware.checkcaptcha, passport.authenticate("local",
     {
         successRedirect: "/admin",
         failedRedirect: "/",
@@ -71,6 +77,12 @@ router.get("/", middleware.isLoggedIn, function(req, res){
     });
 });
 
+// ADMIN LOGOUT ROUTE
 
+router.get("/logout", function(req, res){
+    req.logout();
+    req.flash("success", "Logged you out!"); // as we add res.locals.message = req.flash("error"); in app.js already, we can just add this line here to make the flash message show up
+    res.redirect("/");
+});
 
 module.exports = router;

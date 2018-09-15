@@ -1,33 +1,67 @@
-<div class="container border">
+<!DOCTYPE html>
+<html>
+    
+    <head>
         
-        <form id="registerForm" action="/admin/puddingreg" method="POST">
-            
-            <div>
-                <label for="username">名稱</label>
-                <input type="text" name="user[username]" required>
-            </div>
-            
-            <div>
-                <label for="email">電郵</label>
-                <input type="email" name="user[email]" required>
-            </div>
-            
-            <div>
-                <label for="password">密碼</label>
-                <input type="password" name="password" required>
-            </div>
-            
-            <div>
-                <label for="adminCode">暗號</label>
-                <input type="text" name="adminCode" required>
-            </div>
-            
-            
-            <button type="submit" class="btn btn-success">發送</button>
-            <a href="/" class="btn btn-danger">取消</a>
-            
-            
-        </form>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/main.css">
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+        
+        <title>VanTopics</title>
+        
+    </head>
+    
+    <body>
 
+        <div class="container border">
+                
+                <form id="registerForm" action="/admin/puddingreg" method="POST">
+                    
+                    <div class="form-group">
+                        <label for="username">名稱</label>
+                        <input class="form-control" type="text" name="user[username]" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">電郵</label>
+                        <input class="form-control" type="email" name="user[email]" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">密碼</label>
+                        <input class="form-control" type="password" name="password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adminCode">暗號</label>
+                        <input class="form-control" type="text" name="adminCode" required>
+                    </div>
+                    
+                    <div class="g-recaptcha form-group" data-sitekey="<%= process.env.RECAPTCHA_SITEKEY %>"></div>
+                    
+                    <div class="form-group"><button type="submit" class="btn btn-success">發送</button></div>
+                    <div class="form-group"><a href="/" class="btn btn-danger">取消</a></div>
+                    
+                </form>
         
-    </div>
+        </div>
+        
+        <div class="container">
+            <p>Copyright © Vantopics</p>
+        </div>
+    
+        <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous">
+        </script>
+    	<script
+    	    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    	    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    	    crossorigin="anonymous">
+    	</script>
+    	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/main.js"></script>
+    
+    </body>
+</html>

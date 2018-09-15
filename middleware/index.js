@@ -23,4 +23,13 @@ middlewareObj.isLoggedIn = function(req, res, next){
     res.redirect("/");
 };
 
+middlewareObj.checkcaptcha = function(req, res, next){
+    if(!req.recaptcha.error){
+        next();
+    } else{
+        req.flash("error", "Please prove you are human. =)");
+        res.redirect("back");
+    }    
+};
+
 module.exports = middlewareObj;
