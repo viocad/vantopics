@@ -3,16 +3,18 @@
 <h4><%= posts[0].category.name %></h4>
 
 <% posts.forEach(function(post){ %>
-    <div>
-        <h4><%= post.title %></h4>
-
-        <p>
-        <%= post.firstPara %>
-        </p>
-        
-        <P>
-            <a href="/posts/<%= post._id %>" class="btn btn-primary">Read More</a>
-        </P>
+    <div class="card mb-4 border-secondary">
+        <div class="card-body">
+            <h4 class="card-title"><%= post.title %></h4>
+    
+            <% var startP = post.content.indexOf("<p>"); %>
+            <% var endP = post.content.indexOf("</p>") + 4; %>
+            <p class="card-text"><%- post.content.slice(startP, endP) %></p>
+            
+            <P>
+                <a href="/posts/<%= post._id %>" class="card-link">Read More</a>
+            </P>
+        </div>
     </div>
 <% }); %>
 

@@ -37,8 +37,7 @@ app.use(cookieParser(process.env.SESSION_SECRET));
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
-    cookie: {maxAge: 60000}
+    saveUninitialized: false
 }));
 
 // PASSPORT CONFIGURATION

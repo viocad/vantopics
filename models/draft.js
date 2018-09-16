@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 
 // SCHEMA SETUP
-var postSchema = new mongoose.Schema({
+var draftSchema = new mongoose.Schema({
    title: String,
    content: String,
    createdAt: {
@@ -24,4 +24,4 @@ var postSchema = new mongoose.Schema({
    }
 });
 
-module.exports = mongoose.model("Post", postSchema);
+module.exports = mongoose.model("Draft", draftSchema);
