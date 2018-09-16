@@ -1,0 +1,26 @@
+<% include ./partials/header %>
+
+<% posts.forEach(function(post){ %>
+    <div class="card mb-4 border-secondary">
+        <div class="card-body">
+            <h4 class="card-title"><%= post.title %></h4>
+    
+            <% var startP = post.content.indexOf("<p>"); %>
+            <% var endP = post.content.indexOf("</p>") + 4; %>
+            <p class="card-text"><%- post.content.slice(startP, endP) %></p>
+            
+            <a href="/posts/<%= post._id %>" class="card-link">Read More</a>
+        </div>
+    </div>
+<% }); %>
+
+<div class="row">
+    <div class="col" align="center">
+        <% for(i=1; i<=pages; i++){ %>
+            <a href="/?pageNo=<%= i %>"><button class="btn btn-xs"><%= i %></button></a>
+        <% } %>
+    </div>
+</div>
+
+
+<% include ./partials/footer %>

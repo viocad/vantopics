@@ -71,6 +71,10 @@ app.use("/posts", postRoutes);
 app.use("/admin/categories", categoryRoutes);
 app.use("/categories", publicCategoryRoutes);
 
+app.get("/*", function(req, res){
+    req.flash("error", "啊！您是走錯路了吧？沒關係！現在就帶你回「家」=）");
+    res.redirect("/");
+});
 
 // STARTUP SERVER
 app.listen(process.env.PORT, process.env.IP, function(){

@@ -79,4 +79,43 @@ router.post("/contact", recaptcha.middleware.verify, middleware.checkcaptcha, fu
     });
 });
 
+// SEARCH POST ROUTE
+router.post("/search", function(req, res){
+    
+    if(req.body.query && req.body.query > 0){
+        // pagination
+        var pageNo = parseInt(req.query.pageNo);
+        var size = 10;
+        var cursor = {};
+        if(pageNo < 0 || pageNo === 0){
+            return console.log("error");
+        }
+        cursor.sort = {createdAt: -1};
+        cursor.skip = size * (pageNo-1);
+        cursor.limit = size;
+        
+        Post.count({$text: {$search: req.body.query}}, function(err, numPosts){
+            if(err){
+                return console.log("Error when getting total number of posts");
+            }
+            
+            var numPages = Math.ceil(numPosts/size);
+            
+            Post.find({$text: {$search: req.body.query}}, function(err, foundPosts){
+                if(err || !foundPosts || foundPosts <= 0){
+                    req.flash("error", "抱歉，沒有您要找的資料 =（");
+                    return res.redirect("/");
+                }
+                
+                Category.find({}, function(err, allCategories){
+                   if(err){
+                       return console.log(err);
+                   }
+                    return res.render("search", {posts: foundPosts, categories: allCategories, pages: numPages});
+                });
+            });
+        });
+    }
+});
+
 module.exports = router;
