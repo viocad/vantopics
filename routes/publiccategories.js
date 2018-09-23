@@ -5,12 +5,16 @@ var express         = require("express"),
     
 // PUBLIC CATEGORY INDEX ROUTE
 router.get("/", function(req, res){
-    // get all categories from DB and pass to webpage
-   Category.find({}, function(err, allCategories){
-       if(err){
-           return console.log(err);
-       }
-       res.render("categories/public/index", {categories: allCategories});
+    Post.find({}, function(err, allPosts){
+        if(err){
+            return console.log(err);
+        }
+        Category.find({}, function(err, allCategories){
+            if(err){
+               return console.log(err);
+            }
+            res.render("categories/public/index", {categories: allCategories, posts: allPosts});
+        });
     });
 });
 

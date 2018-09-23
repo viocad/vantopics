@@ -1,13 +1,11 @@
 <% include ../partials/admin-header %>
 
-<%= message %>
-
 <div class="row">
     <div class="col">
-        <h4>所有文章</h4>
+        <h2>所有文章</h2>
     </div>
-    <div class="col" align="right">
-        <a href="/posts/new">寫新文章</a>
+    <div class="col text-right">
+        <span>文章總數：<%= numPosts %> | </span><a href="/posts/new">寫新文章</a>
     </div>
 </div>
 

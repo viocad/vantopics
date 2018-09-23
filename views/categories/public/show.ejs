@@ -1,18 +1,18 @@
 <% include ../../partials/header %>
 
-<h4><%= posts[0].category.name %></h4>
+<h2><%= posts[0].category.name %></h2>
 
 <% posts.forEach(function(post){ %>
     <div class="card mb-4 border-secondary">
         <div class="card-body">
-            <h4 class="card-title"><%= post.title %></h4>
+            <h2 class="card-title"><a href="/posts/<%= post._id %>" class="card-link"><%= post.title %></a></h2>
     
             <% var startP = post.content.indexOf("<p>"); %>
             <% var endP = post.content.indexOf("</p>") + 4; %>
             <p class="card-text"><%- post.content.slice(startP, endP) %></p>
             
             <P>
-                <a href="/posts/<%= post._id %>" class="card-link">Read More</a>
+                <a href="/posts/<%= post._id %>" class="card-link">閱讀更多</a>
             </P>
         </div>
     </div>

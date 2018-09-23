@@ -10,13 +10,18 @@ var express         = require("express"),
 
 // CATEGORY - INDEX ROUTE
 router.get("/", middleware.isLoggedIn, function(req, res){
-  Category.find({}, function(err, allCategories){
-      if(err){
-          req.flash("error", "Category.find()出問題！");
-          return res.redirect("/admin");
-      } 
-      res.render("categories/index", {categories: allCategories});
-  }); 
+    Post.find({}, function(err, allPosts){
+        if(err){
+            return console.log(err);
+        }
+        Category.find({}, function(err, allCategories){
+          if(err){
+              req.flash("error", "Category.find()出問題！");
+              return res.redirect("/admin");
+          } 
+          res.render("categories/index", {categories: allCategories, posts: allPosts});
+        }); 
+    }); 
 });
 
 // CATEGORY - NEW ROUTE

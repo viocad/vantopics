@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="col">
-        <h4>所有文章分類</h4>
+        <h2>所有文章分類</h2>
     </div>
     <div class="col" align="right">
         <a href="/admin/categories/new">創建新分類</a>
@@ -12,17 +12,26 @@
 <div class="table-responsive">
     <table class="table table-hover">
         <thead>
-            <th>分類</th>
-            <th>簡介</th>
+            <th>分類名稱</th>
+            <th width="50%">分類簡介</th>
+            <th>目前文章數目</th>
+            <th></th>
             <th></th>
         </thead>
         <tbody>
             <% categories.forEach(function(category){ %>
+                <% var num = 0; %>
+                <% posts.forEach(function(post){ %>
+                    <% if(post.category.id == category.id){ %>
+                       <% num += 1; %>
+                    <% } %>
+                <% }); %>
                 <tr>
                     <td><a href="/admin/categories/<%= category._id %>"><%= category.name %></a></td>
                     <td><%= category.description %></td>
-                    <td  align="right"><a class="btn btn-xs btn-warning" href="/admin/categories/<%= category._id %>/edit">編輯</a>
-                    <form class="delete-form" action="/admin/categories/<%= category._id %>?_method=DELETE" method="POST">
+                    <td><%= num %></td>
+                    <td align="right"><a class="btn btn-xs btn-warning" href="/admin/categories/<%= category._id %>/edit">編輯</a></td>
+                    <td align="right"><form class="delete-form" action="/admin/categories/<%= category._id %>?_method=DELETE" method="POST">
                         <button class="btn btn-xs btn-danger">刪除</button>
                     </form></td>
                 </tr>

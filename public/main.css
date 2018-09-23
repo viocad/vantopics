@@ -17,11 +17,13 @@ p {
     margin-bottom: 10px;
 }
 
-h4 {
-    margin-bottom: 30px;
-}
-
 #authorAndDate {
     color: grey;
     text-align: right;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+h2 {
+    margin-bottom: 30px;
 }

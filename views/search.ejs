@@ -3,7 +3,7 @@
 <% posts.forEach(function(post){ %>
     <div class="card mb-4 border-secondary">
         <div class="card-body">
-            <h4 class="card-title"><%= post.title %></h4>
+            <h2 class="card-title"><%= post.title %></h2>
     
             <% var startP = post.content.indexOf("<p>"); %>
             <% var endP = post.content.indexOf("</p>") + 4; %>
