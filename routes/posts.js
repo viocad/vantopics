@@ -34,7 +34,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
         }; 
         newPost.author = {
             id: req.user._id,
-            name: req.user.username
+            name: req.user.displayName
         }
         newPost.createdAt = new Date();
         newPost.createdAt.setFullYear(req.body.date.year);

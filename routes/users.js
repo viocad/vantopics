@@ -40,6 +40,10 @@ router.post("/puddingreg", middleware.isAdmin, recaptcha.middleware.verify, midd
 
 // login form
 router.get("/login", recaptcha.middleware.render, function(req, res){
+    if(req.isAuthenticated()){
+        req.flash("error", "你已經登入了，估計也不用再登入了吧！");
+        res.redirect("/admin");
+    }
    res.render("users/admin", {page: "login", captcha: res.recaptcha});
 });
 
@@ -49,6 +53,25 @@ router.post("/login", recaptcha.middleware.verify, middleware.checkcaptcha, pass
         successRedirect: "/admin",
         failedRedirect: "/"
     }), function(req, res){
+});
+
+// user profile form - EDIT ROUTE
+router.get("/users/:id", middleware.isLoggedIn, function(req, res) {
+    res.render("users/profile");
+});
+
+// user profile - UPDATE ROUTE
+router.put("/users/:id", middleware.isLoggedIn, function(req, res){
+    User.findById(req.user.id, function(err, foundUser){
+        if(err || !foundUser){
+            req.flash("error", "系統出錯，沒找到你的資料！");
+            res.redirect("back");
+        }
+        foundUser.displayName = req.body.user;
+        foundUser.save()
+        req.flash("success", "已成功更新個人資料");
+        res.redirect("/admin/users/" + req.user.id);
+    });
 });
 
 // ADMIN INDEX ROUTE

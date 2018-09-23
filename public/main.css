@@ -30,4 +30,6 @@ h2 {
 
 .cse .gsc-control-cse, .gsc-control-cse {
     background-color:transparent !important;
+    border-color: transparent !important;
+    padding: 0 !important;
 }

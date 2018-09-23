@@ -4,12 +4,14 @@ var mongoose                = require("mongoose"),
 var userSchema = new mongoose.Schema({
     password: {
         type: String,
-        require: true},
+        require: true
+    },
     username: {
         type: String,
         unique: true,
-        required: true},
-    email: {
+        required: true
+    },
+    displayName: {
         type: String,
         unique: true,
         required: true
