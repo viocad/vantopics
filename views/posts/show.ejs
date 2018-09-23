@@ -12,12 +12,12 @@
     <div class="col">
         <% if(currentUser){ %>
             <a class="btn btn-xs btn-warning" href="/posts/<%= post._id %>/edit">編輯</a>
-        
-            <form class="delete-form" action="/posts/<%= post._id %>?_method=DELETE" method="POST">
-                <button class="btn btn-xs btn-danger">刪除</button>
-            </form>
             
             <a href="/admin"><button class="btn btn-xs btn-primary">所有文章</button></a>
+            
+            <form class="delete-form float-right" action="/posts/<%= post._id %>?_method=DELETE" method="POST">
+                <button class="btn btn-xs btn-danger">刪除</button>
+            </form>
             
         <% } %>
         

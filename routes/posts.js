@@ -13,7 +13,7 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
     Category.find({}, function(err, allCategories){
         if(err){
             req.flash("error", "Category.find()出問題！");
-            return res.redirect("/");
+            return res.redirect("back");
         }
         res.render("posts/new", {categories: allCategories, date: new Date()});
     });
