@@ -26,4 +26,13 @@
     </div>
 </div>
 
+<div class="row mt-4">
+    <div class="col">
+        <h4>相同分類的文章：</h4>
+        <% sameCatPosts.forEach(function(post){ %>
+            <p><a href="/posts/<%= post._id %>"><%= post.title %></a></p>
+        <% }); %>
+    </div>
+
+
 <% include ../partials/footer %>

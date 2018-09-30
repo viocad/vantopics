@@ -65,8 +65,13 @@ router.get("/:id", function(req, res){
                 req.flash("error", "抱歉，系統出錯，未能找到文章！");
                 return res.redirect("/");
             } 
-            // render show template with that post
-            res.render("posts/show", {post: foundPost, categories: allCategories});
+            Post.find({ "category.id": foundPost.category.id }, {}, { sort: {createdAt: -1}, limit: 4 }, function(err, sameCatPosts){
+                if(err){
+                    console.log(err);
+                }
+                // render show template with that post
+                res.render("posts/show", {post: foundPost, categories: allCategories, sameCatPosts: sameCatPosts});
+            });
         });
     });
 });

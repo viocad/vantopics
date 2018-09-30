@@ -3,13 +3,25 @@
 <% posts.forEach(function(post){ %>
     <div class="card mb-4 border-secondary">
         <div class="card-body">
-            <h2 class="card-title"><a href="/posts/<%= post._id %>" class="card-link"><%= post.title %></a></h2>
+            <% if(post.featuredImage !== ""){ %>
+                <div class="row">
+                    <div class="col-md-3 col-sm-12">
+                        <img src="<%= post.featuredImage %>" width="100%">
+                    </div>
+                    <div class="col-md-9 col-sm-12">
+            <% } %>
+                    <h2 class="card-title"><a href="/posts/<%= post._id %>" class="card-link"><%= post.title %></a></h2>
     
-            <% var startP = post.content.indexOf("<p>"); %>
-            <% var endP = post.content.indexOf("</p>") + 4; %>
-            <p class="card-text"><%- post.content.slice(startP, endP) %></p>
-            
-            <a href="/posts/<%= post._id %>" class="card-link">閱讀更多</a>
+                    <% var startP = post.content.indexOf("<p>"); %>
+                    <% var endP = post.content.indexOf("</p>") + 4; %>
+                    <p class="card-text"><%- post.content.slice(startP, endP) %></p>
+                    
+                    <a href="/posts/<%= post._id %>" class="card-link">閱讀更多</a>
+            <% if(post.featuredImage !== ""){ %>
+                    </div>
+                    
+                </div>
+            <% } %>
         </div>
     </div>
 <% }); %>
