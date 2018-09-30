@@ -91,21 +91,21 @@ router.get("/:id/edit", middleware.isLoggedIn, function(req, res){
 
 // POST - UPDATE ROUTE
 router.put("/:id", middleware.isLoggedIn, function(req, res){
-    var postToUdate = req.body.post;
+    var postToUpdate = req.body.post;
     Category.findById(req.body.category, function(err, foundCategory) {
         if(err || !foundCategory){
             req.flash("error", "系統出錯，未能找到分類！");
             return res.redirect("/admin");
         }
-        postToUdate.category = {
+        postToUpdate.category = {
         id: req.body.category,
         name: foundCategory.name
         }
-        postToUdate.createdAt = new Date();
-        postToUdate.createdAt.setFullYear(req.body.date.year);
-        postToUdate.createdAt.setMonth(req.body.date.month - 1);
-        postToUdate.createdAt.setDate(req.body.date.day);
-        Post.findByIdAndUpdate(req.params.id, postToUdate, function(err, updatedPost){
+        postToUpdate.createdAt = new Date();
+        postToUpdate.createdAt.setFullYear(req.body.date.year);
+        postToUpdate.createdAt.setMonth(req.body.date.month - 1);
+        postToUpdate.createdAt.setDate(req.body.date.day);
+        Post.findByIdAndUpdate(req.params.id, postToUpdate, function(err, updatedPost){
           if(err || !updatedPost){
               req.flash("error", "系統出錯，更新文章失敗！");
               return res.redirect("/admin");

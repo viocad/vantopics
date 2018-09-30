@@ -22,12 +22,12 @@ router.get("/", function(req, res){
     cursor.sort = {createdAt: -1};
     cursor.skip = size * (pageNo-1);
     cursor.limit = size;
-        Post.count({}, function(err, numPosts){
+        Post.count({ "draft": {$eq: "0"} }, function(err, numPosts){
             if(err){
                 return console.log("Error when getting total number of posts");
             }
             var numPages = Math.ceil(numPosts/size);
-            Post.find({}, {}, cursor, function(err, allPosts){
+            Post.find({ "draft": {$eq: "0"} }, {}, cursor, function(err, allPosts){
                if(err){
                    return console.log(err);
                }

@@ -20,7 +20,7 @@
         <tbody>
             <% posts.forEach(function(post){ %>
                 <tr>
-                    <td><a href="/posts/<%= post._id %>"><%= post.title %></a></td>
+                    <td><% if(post.draft == "1"){ %><font color="red">[草稿]  </font><% } %><a href="/posts/<%= post._id %>"><%= post.title %></a></td>
                     <td><a href="/admin/categories/<%= post.category.id %>"><%= post.category.name %></a></td>
                     <td><%= post.createdAt.getFullYear() %>年<%= post.createdAt.getMonth()+1 %>月<%= post.createdAt.getDate() %>日</td>
                     <td><%= post.author.name %></td>

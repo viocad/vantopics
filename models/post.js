@@ -8,6 +8,11 @@ var postSchema = new mongoose.Schema({
       type: Date,
       default: new Date()
    },
+   draft: {
+      type: String,
+      default: "0"
+   },
+   featuredImage: String,
    category: {
       id: {
          type: mongoose.Schema.Types.ObjectId,
