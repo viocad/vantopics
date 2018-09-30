@@ -97,7 +97,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
                 req.flash("error", "Post.find()出錯！");
                 return res.redirect("/admin");
             } 
-            res.render("posts/index", {posts: allPosts, pages: numPages, numPosts: numPosts});
+            res.render("posts/index", {posts: allPosts, pages: numPages, numPosts: numPosts, pageNo: pageNo});
         });
     });
 });

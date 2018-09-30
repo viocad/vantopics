@@ -44,7 +44,7 @@ router.get("/:id", function(req, res){
                if(err){
                    return console.log(err);
                }
-               res.render("categories/public/show", {posts: categoryPosts, pages: numPages, categories: allCategories});
+               res.render("categories/public/show", {posts: categoryPosts, pages: numPages, categories: allCategories, pageNo: pageNo});
            });
         });    
     });

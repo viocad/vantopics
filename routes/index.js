@@ -35,7 +35,7 @@ router.get("/", function(req, res){
                    if(err){
                        return console.log(err);
                    }
-                   res.render("index", {posts: allPosts, pages: numPages, categories: allCategories});
+                   res.render("index", {posts: allPosts, pages: numPages, categories: allCategories, pageNo: pageNo});
                });
             });    
         });

@@ -47,13 +47,29 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 
 // CATEGORY - SHOW ROUTE
 router.get("/:id", middleware.isLoggedIn, function(req, res) {
-    Post.find({ "category.id": req.params.id }, function(err, foundPosts){
-        if(err || !foundPosts){
-            req.flash("error", "Post.find()出問題！");
-            return res.redirect("/admin");
-        } 
-        res.render("categories/show", {posts: foundPosts});
-    }); 
+    // pagination
+    var pageNo = parseInt(req.query.pageNo);
+    var size = 10;
+    var cursor = {};
+    if(pageNo < 0 || pageNo === 0){
+        return console.log("error");
+    }
+    cursor.sort = {createdAt: -1};
+    cursor.skip = size * (pageNo-1);
+    cursor.limit = size;
+    Post.count({"category.id": {$eq: req.params.id}}, function(err, numPosts){
+        if(err){
+            return console.log("Error when getting total number of posts");
+        }
+        var numPages = Math.ceil(numPosts/size);
+        Post.find({ "category.id": req.params.id }, function(err, foundPosts){
+            if(err || !foundPosts){
+                req.flash("error", "Post.find()出問題！");
+                return res.redirect("/admin");
+            } 
+            res.render("categories/show", {posts: foundPosts, pages: numPages, pageNo: pageNo});
+        }); 
+    });
 });
 
 // CATEGORY - EDIT ROUTE
