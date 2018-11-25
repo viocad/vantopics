@@ -19,7 +19,7 @@
         <tbody>
             <% posts.forEach(function(post){ %>
                 <tr>
-                    <td><a href="/posts/<%= post._id %>"><%= post.title %></a></td>
+                    <td><% if(post.draft == "1"){ %><font color="red">[草稿]  </font><% } %><a href="/posts/<%= post._id %>"><%= post.title %></a></td>
                     <td><%= post.createdAt.getFullYear() %>.<%= post.createdAt.getMonth()+1 %>.<%= post.createdAt.getDate() %></td>
                     <td><%= post.author.username %></td>
                 </tr>
@@ -33,24 +33,24 @@
         <% if (pages>7){ %>
             <% if (!pageNo || pageNo <= 3 || pageNo >= pages-2) { %>
                 <% for(i=1; i<=3; i++){ %>
-                    <a href="/?pageNo=<%= i %>"><button class="btn btn-xs"><%= i %></button></a>
+                    <a href="/admin/categories/<%= posts[0].category.id %>/?pageNo=<%= i %>"><button class="btn btn-xs"><%= i %></button></a>
                 <% } %>
-                <a href="/?pageNo=4"><button class="btn btn-xs">...</button></a>
+                <a href="/admin/categories/<%= posts[0].category.id %>/?pageNo=4"><button class="btn btn-xs">...</button></a>
                 <% for(i=pages-2; i<=pages; i++){ %>
-                    <a href="/?pageNo=<%= i %>"><button class="btn btn-xs"><%= i %></button></a>
+                    <a href="/admin/categories/<%= posts[0].category.id %>/?pageNo=<%= i %>"><button class="btn btn-xs"><%= i %></button></a>
                 <% } %>
             <% } else { %>
-                <a href="/?pageNo=1"><button class="btn btn-xs">1</button></a>
-                <a href="/?pageNo=<%= pageNo-2 %>"><button class="btn btn-xs">...</button></a>
+                <a href="/admin/categories/<%= posts[0].category.id %>/?pageNo=1"><button class="btn btn-xs">1</button></a>
+                <a href="/admin/categories/<%= posts[0].category.id %>/?pageNo=<%= pageNo-2 %>"><button class="btn btn-xs">...</button></a>
                 <% for(i=pageNo-1; i<=pageNo+1; i++){ %>
-                    <a href="/?pageNo=<%= i %>"><button class="btn btn-xs"><%= i %></button></a>
+                    <a href="/admin/categories/<%= posts[0].category.id %>/?pageNo=<%= i %>"><button class="btn btn-xs"><%= i %></button></a>
                 <% } %>
-                <a href="/?pageNo=<%= pageNo+2 %>"><button class="btn btn-xs">...</button></a>
-                <a href="/?pageNo=<%= pages %>"><button class="btn btn-xs"><%= pages %></button></a>
+                <a href="/admin/categories/<%= posts[0].category.id %>/?pageNo=<%= pageNo+2 %>"><button class="btn btn-xs">...</button></a>
+                <a href="/admin/categories/<%= posts[0].category.id %>/?pageNo=<%= pages %>"><button class="btn btn-xs"><%= pages %></button></a>
             <% } %>
         <% } else{ %>
             <% for(i=1; i<=pages; i++){ %>
-                <a href="/?pageNo=<%= i %>"><button class="btn btn-xs"><%= i %></button></a>
+                <a href="/admin/categories/<%= posts[0].category.id %>/?pageNo=<%= i %>"><button class="btn btn-xs"><%= i %></button></a>
             <% } %>
         <% } %>
     </div>

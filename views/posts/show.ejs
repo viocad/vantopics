@@ -29,8 +29,10 @@
 <div class="row mt-4">
     <div class="col">
         <h4>相同分類的文章：</h4>
-        <% sameCatPosts.forEach(function(post){ %>
-            <p><a href="/posts/<%= post._id %>"><%= post.title %></a></p>
+        <% sameCatPosts.forEach(function(sameCatPost){ %>
+            <% if(sameCatPost.draft !== "1" && String(sameCatPost._id) !== String(post._id)){ %>
+                <p><a href="/posts/<%= sameCatPost._id %>"><%= sameCatPost.title %></a></p>
+            <% } %>
         <% }); %>
     </div>
 

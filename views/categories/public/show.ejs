@@ -3,19 +3,21 @@
 <h2><%= posts[0].category.name %></h2>
 
 <% posts.forEach(function(post){ %>
-    <div class="card mb-4 border-secondary">
-        <div class="card-body">
-            <h2 class="card-title"><a href="/posts/<%= post._id %>" class="card-link"><%= post.title %></a></h2>
-    
-            <% var startP = post.content.indexOf("<p>"); %>
-            <% var endP = post.content.indexOf("</p>") + 4; %>
-            <p class="card-text"><%- post.content.slice(startP, endP) %></p>
-            
-            <P>
-                <a href="/posts/<%= post._id %>" class="card-link">閱讀更多</a>
-            </P>
+    <% if(post.draft !== "1"){ %>
+        <div class="card mb-4 border-secondary">
+            <div class="card-body">
+                <h2 class="card-title"><a href="/posts/<%= post._id %>" class="card-link"><%= post.title %></a></h2>
+        
+                <% var startP = post.content.indexOf("<p>"); %>
+                <% var endP = post.content.indexOf("</p>") + 4; %>
+                <p class="card-text"><%- post.content.slice(startP, endP) %></p>
+                
+                <P>
+                    <a href="/posts/<%= post._id %>" class="card-link">閱讀更多</a>
+                </P>
+            </div>
         </div>
-    </div>
+    <% } %>
 <% }); %>
 
 <div class="row">
@@ -23,24 +25,24 @@
         <% if (pages>7){ %>
             <% if (!pageNo || pageNo <= 3 || pageNo >= pages-2) { %>
                 <% for(i=1; i<=3; i++){ %>
-                    <a href="/?pageNo=<%= i %>"><button class="btn btn-xs"><%= i %></button></a>
+                    <a href="/categories/<%= posts[0].category.id %>/?pageNo=<%= i %>"><button class="btn btn-xs"><%= i %></button></a>
                 <% } %>
-                <a href="/?pageNo=4"><button class="btn btn-xs">...</button></a>
+                <a href="/categories/<%= posts[0].category.id %>/?pageNo=4"><button class="btn btn-xs">...</button></a>
                 <% for(i=pages-2; i<=pages; i++){ %>
-                    <a href="/?pageNo=<%= i %>"><button class="btn btn-xs"><%= i %></button></a>
+                    <a href="/categories/<%= posts[0].category.id %>/?pageNo=<%= i %>"><button class="btn btn-xs"><%= i %></button></a>
                 <% } %>
             <% } else { %>
-                <a href="/?pageNo=1"><button class="btn btn-xs">1</button></a>
-                <a href="/?pageNo=<%= pageNo-2 %>"><button class="btn btn-xs">...</button></a>
+                <a href="/categories/<%= posts[0].category.id %>/?pageNo=1"><button class="btn btn-xs">1</button></a>
+                <a href="/categories/<%= posts[0].category.id %>/?pageNo=<%= pageNo-2 %>"><button class="btn btn-xs">...</button></a>
                 <% for(i=pageNo-1; i<=pageNo+1; i++){ %>
-                    <a href="/?pageNo=<%= i %>"><button class="btn btn-xs"><%= i %></button></a>
+                    <a href="/categories/<%= posts[0].category.id %>/?pageNo=<%= i %>"><button class="btn btn-xs"><%= i %></button></a>
                 <% } %>
-                <a href="/?pageNo=<%= pageNo+2 %>"><button class="btn btn-xs">...</button></a>
-                <a href="/?pageNo=<%= pages %>"><button class="btn btn-xs"><%= pages %></button></a>
+                <a href="/categories/<%= posts[0].category.id %>/?pageNo=<%= pageNo+2 %>"><button class="btn btn-xs">...</button></a>
+                <a href="/categories/<%= posts[0].category.id %>/?pageNo=<%= pages %>"><button class="btn btn-xs"><%= pages %></button></a>
             <% } %>
         <% } else{ %>
             <% for(i=1; i<=pages; i++){ %>
-                <a href="/?pageNo=<%= i %>"><button class="btn btn-xs"><%= i %></button></a>
+                <a href="/categories/<%= posts[0].category.id %>/?pageNo=<%= i %>"><button class="btn btn-xs"><%= i %></button></a>
             <% } %>
         <% } %>
     </div>
